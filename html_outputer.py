@@ -1,14 +1,29 @@
 # coding:utf-8
+"""
+爬虫输出器
+"""
+
+
 class HtmlOutputer(object):
+    """
+    爬虫输出类
+    """
+
     def __init__(self):
         self.datas = []
 
     def collect_data(self, data):
+        """
+        收集数据函数
+        """
         if data is None:
             return
         self.datas.append(data)
 
     def output_html(self):
+        """
+        输出函数
+        """
         fout = open('output.html', 'w', encoding='utf-8')
 
         fout.write('<html>\n')
