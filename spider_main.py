@@ -28,20 +28,20 @@ class SpiderMain(object):
         count = 1
         self._urls.add_new_url(root_url)
         while self._urls.has_new_url():
-            try:
-                new_url = self._urls.get_new_url()
-                print('craw %d : %s' % (count, new_url))
-                html_cont = self._downloader.download(new_url)
-                new_urls, new_data = self._parser.parse(new_url, html_cont)
-                self._urls.add_new_urls(new_urls)
-                self._outputer.collect_data(new_data)
+            #            try:
+            new_url = self._urls.get_new_url()
+            print('craw %d : %s' % (count, new_url))
+            html_cont = self._downloader.download(new_url)
+            new_urls, new_data = self._parser.parse(new_url, html_cont)
+            self._urls.add_new_urls(new_urls)
+            self._outputer.collect_data(new_data)
 
-                print(new_data)
-                count += 1
-                if count == 10:
-                    break
-            except BaseException:
-                print('craw failed')
+            print(new_data)
+            count += 1
+            if count >= 1:
+                break
+ #           except BaseException:
+ #           print('craw failed')
         self._outputer.output_html()
 
 

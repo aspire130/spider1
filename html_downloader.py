@@ -13,7 +13,7 @@ class HtmlDownloader(object):
     """
 
     def __init__(self):
-        self._values = {'user': '130啊斤', 'password': 'LIUhai@456'}
+        self._values = {'user': '', 'password': ''}
         self._postdata = urllib.parse.urlencode(self._values).encode('utf-8')
         self._user_agent = r'Mozilla/5.0(X11;Linux x86_64...)\
                              Gecko/20100101 Firefox/57.0'
@@ -47,9 +47,9 @@ class HtmlDownloader(object):
             return None
         try:
             req = urllib.request.Request(url, headers=self._headers)
-            print(req)
-            response = self._opener.open(req).decode('utf-8')
-            print(response)
+            # print(req)
+            response = self._opener.open(req)
+            # print(response)
         except urllib.request.URLError as error:
             print(error)
             return None

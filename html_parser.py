@@ -5,6 +5,7 @@
 import re
 from urllib.parse import urljoin
 from bs4 import BeautifulSoup
+import html5lib
 
 
 class HtmlParser(object):
@@ -18,7 +19,11 @@ class HtmlParser(object):
         """
         new_urls = set()
         # <a href="/p/54457" title="奇书"
-        links = soup.find_all('a', href=re.compile('/p/\d+$'))
+        print(soup.prettify())
+        # links = soup.find_all('a', href=re.compile('/p/\d+$'))
+        links = soup.find_all(
+                'script')
+        print(links)
         for link in links:
             new_url = link['href']
             # print(new_url)
@@ -48,7 +53,8 @@ class HtmlParser(object):
         """
         if page_url is None or html_cont is None:
             return
-        soup = BeautifulSoup(html_cont, 'html.parser')
+        # soup = BeautifulSoup(html_cont, 'html.parser')
+        soup = BeautifulSoup(html_cont, 'html5lib')
         # print(soup.prettify())
         new_urls = None
         new_urls = self._get_new_urls(page_url, soup)
