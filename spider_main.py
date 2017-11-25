@@ -28,24 +28,21 @@ class SpiderMain(object):
         count = 1
         self._urls.add_new_url(root_url)
         while self._urls.has_new_url():
-            #            try:
             new_url = self._urls.get_new_url()
-            print('craw %d : %s' % (count, new_url))
+            # print('craw %d : %s' % (count, new_url))
             html_cont = self._downloader.download(new_url)
             new_urls, new_data = self._parser.parse(new_url, html_cont)
             self._urls.add_new_urls(new_urls)
             self._outputer.collect_data(new_data)
-
             print(new_data)
+
             count += 1
-            if count >= 1:
+            if count >= 45:
                 break
- #           except BaseException:
- #           print('craw failed')
         self._outputer.output_html()
 
 
 if __name__ == '__main__':
-    url = 'https://tieba.baidu.com/f?kw=%B6%FE%D5%BD&&fr=itb_favo&fp=favo'
+    url = 'https://tieba.baidu.com/f?kw=%B6%FE%D5%BD&&fr=itb_favo&fp=favo#'
     obj_spider = SpiderMain()
     obj_spider.craw(url)

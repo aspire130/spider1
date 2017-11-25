@@ -13,25 +13,26 @@ class HtmlDownloader(object):
     """
 
     def __init__(self):
-        self._values = {'user': '', 'password': ''}
+        self._values = {'username': '***', 'password': '***'}
         self._postdata = urllib.parse.urlencode(self._values).encode('utf-8')
-        self._user_agent = r'Mozilla/5.0(X11;Linux x86_64...)\
-                             Gecko/20100101 Firefox/57.0'
+        self._user_agent = 'Mozilla/5.0 (Windows NT 10.0; WOW64)'
         self._headers = {
-            'User-Agent': self._user_agent,
-            'Connection': 'keep-alive'}
+            'Accept':'*/*',
+            'Accept-Language':'zh-CN,zh;q=0.8,en;q=0.6',
+            'User-Agent':self._user_agent,
+            'Connection':'keep-alive'
+        }
         self._cj = http.cookiejar.CookieJar()
-        self._opener = urllib.request.build_opener(
-            urllib.request.HTTPCookieProcessor(self._cj))
+        self._openerC = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(self._cj))
 
     def getcookie(self, url):
         """
         登录获取cookie信息
         """
-        root_request = urllib.request.Request(
-            url, self._postdata, self._headers)
+        root_request = urllib.request.Request(url, self._postdata, self._headers)
+        # root_request = urllib.request.Request(url, headers=self._headers)
         try:
-            self._opener.open(root_request)
+            self._openerC.open(root_request)
         except urllib.request.URLError as error:
             print(error)
             return False
@@ -41,17 +42,15 @@ class HtmlDownloader(object):
         """
         下载函数
         """
-        print('download')
         if url is None:
             print(str(url) + 'is None')
             return None
         try:
             req = urllib.request.Request(url, headers=self._headers)
-            # print(req)
-            response = self._opener.open(req)
-            # print(response)
+            response = self._openerC.open(req)
         except urllib.request.URLError as error:
             print(error)
             return None
-        # print('download OK')
-        return response.read()
+        ret = response.read()
+        response.close()
+        return ret
